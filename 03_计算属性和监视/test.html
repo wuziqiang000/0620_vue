@@ -27,6 +27,39 @@
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
 
+  const p = {
+    firstName: 'A',
+    lastName: 'B'
+  }
+  /*
+  给p对象添加一个full Name属性：
+    1. 值根据firstName/lastName来组成： firstName - lastName
+    2. 如果改变firstName/lastName,读取fullName应该是最新值
+    3. 如果改变fullName, 读取到的firstName/lastName 也是最新值
+  */
+  // p.fullName = p.firstName + '-' + p.lastName //编码简洁，功能有限
+  
+  Object.defineProperty(p,'fullName',{
+    get () {
+      console.log('get()')
+      return this.firstName + '-' + this.lastName
+    },
+    set (value) {
+      console.log('set()',value)
+      const names = value.split('-')
+      this.firstName = names[0]
+      this.lastName = names[1]
+    }
+  })
+
+  console.log(p.fullName)
+  p.firstName = "C"
+  p.lastName = "D"
+  console.log(p.fullName)
+
+  p.fullName = 'E-F'
+  console.log(p.firstName,p.lastName)
+
 </script>
 </body>
 </html>
